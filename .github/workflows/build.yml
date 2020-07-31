@@ -20,9 +20,7 @@ jobs:
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
-          ref: ${{ github.ref }}
           java-version: 1.8
-          server-id: central # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: maven-settings-xml-action
@@ -40,6 +38,9 @@ jobs:
           cp -f ~/.m2/settings.xml $GITHUB_WORKSPACE/settings.xml
           cat $GITHUB_WORKSPACE/settings.xml
           cat ~/.m2/settings.xml
-          ls -R $M2_HOME
-          #mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
+          mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
           #mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
+
+      - name: Check local deps
+        run: |
+          ls -R $M2_HOME
