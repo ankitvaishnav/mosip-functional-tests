@@ -23,7 +23,7 @@ jobs:
         uses: whelk-io/maven-settings-xml-action@v10
         with:
           mirrors: '[{ "id": "MavenCentral", "mirrorOf": "central", "url": "https://repo.maven.apache.org/maven2" },{ "id": "Artifactory", "mirrorOf": "artifactory", "url": "http://52.172.8.144:8040/artifactory" }]'
-          repositories: '[{ "id": "MavenCentral", "url": "https://repo.maven.apache.org/maven2", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } },{ "id": "Artifactory", "url": "http://52.172.8.144:8040/artifactory", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } }]'
+          repositories: '[{ "id": "MavenCentral", "url": "https://repo.maven.apache.org/maven2", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } },{ "id": "Artifactory", "name": "libs-release", "url": "http://52.172.8.144:8040/artifactory/libs-release", "releases": { "enabled": "true" } }, { "id": "Artifactory", "name": "libs-snapshot", "url": "http://52.172.8.144:8040/artifactory/libs-snapshot", "snapshots": { "enabled": "true" } }]'
 
       - name: Build with Maven
         run: |
