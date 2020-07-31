@@ -51,12 +51,12 @@ jobs:
 
       - name: Push docker image
         run: |
+          echo "::set-env name=BRANCH_NAME::$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')"
           IMAGE_ID=$NAMESPACE/$IMAGE_NAME
-          VERSION=$BRANCH_NAME
           echo $IMAGE_ID
-          echo $VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+          echo $BRANCH_NAME
+          docker tag $IMAGE_NAME $IMAGE_ID:$BRANCH_NAME
+          docker push $IMAGE_ID:$BRANCH_NAME
         env:
           NAMESPACE: ${{ secrets.docker_namespace }}
           IMAGE_NAME: functional-tests
