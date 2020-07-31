@@ -31,6 +31,6 @@ jobs:
           mvn --version
           which mvn
           echo $MAVEN_HOME
-          echo $MVN_HOME
+          cat $GITHUB_WORKSPACE/settings.xml
           #mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
           #mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
