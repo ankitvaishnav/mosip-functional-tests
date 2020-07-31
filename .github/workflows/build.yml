@@ -40,5 +40,6 @@ jobs:
           cp -f ~/.m2/settings.xml $GITHUB_WORKSPACE/settings.xml
           cat $GITHUB_WORKSPACE/settings.xml
           cat ~/.m2/settings.xml
+          ls -R $M2_HOME
           #mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
           #mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
