@@ -14,8 +14,8 @@ jobs:
         uses: kolpav/purge-artifacts-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          expire-in: 0
-          
+          expire-in: 10mins
+
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
@@ -36,9 +36,9 @@ jobs:
           mvn -v
           mvn --version
           which mvn
-          echo $MAVEN_HOME
+          echo $M2_HOME
           cp -f ~/.m2/settings.xml $GITHUB_WORKSPACE/settings.xml
           cat $GITHUB_WORKSPACE/settings.xml
           cat ~/.m2/settings.xml
-          mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
+          #mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
           #mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
