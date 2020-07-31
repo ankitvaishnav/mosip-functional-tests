@@ -1,4 +1,4 @@
-### Contains 
+### Contains test
 1.  Test automation code
 2.  Test cases in form of JSON files
 3.  Sample test data
