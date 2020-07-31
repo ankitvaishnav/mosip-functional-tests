@@ -52,8 +52,9 @@ jobs:
       - name: Push docker image
         run: |
           IMAGE_ID=$NAMESPACE/$IMAGE_NAME
-          docker tag $IMAGE_NAME $IMAGE_ID:$BRANCH_NAME
-          docker push $IMAGE_ID:$BRANCH_NAME
+          VERSION=${BRANCH_NAME}
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
         env:
           NAMESPACE: ${{ secrets.docker_namespace }}
           IMAGE_NAME: ${{ secrets.image_name }}
