@@ -29,14 +29,16 @@ jobs:
           mirrors: '[{ "id": "MavenCentral", "mirrorOf": "central", "url": "https://repo.maven.apache.org/maven2" },{ "id": "Artifactory", "mirrorOf": "artifactory", "url": "http://52.172.8.144:8040/artifactory" }]'
           repositories: '[{ "id": "MavenCentral", "url": "https://repo.maven.apache.org/maven2", "releases": { "enabled": "true" } },{ "id": "Release", "name": "libs-release", "url": "http://52.172.8.144:8040/artifactory/libs-release", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } }, { "id": "Snapshots", "name": "libs-snapshot", "url": "http://52.172.8.144:8040/artifactory/libs-snapshot", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } }]'
 
-      - name: Build with Maven
+      - name: Setup settings.xml
         run: |
           mvn -v
           cp -f ~/.m2/settings.xml $GITHUB_WORKSPACE/settings.xml
           cat $GITHUB_WORKSPACE/settings.xml
-          mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
-          mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f automationtests/pom.xml
 
-      - name: Check local deps
+      - name: Build authentication-partnerdemo-service
         run: |
-          ls -R $M2_HOME
+          mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
+
+      - name: Build automationtests
+        run: |
+          mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f automationtests/pom.xml
