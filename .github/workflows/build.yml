@@ -29,6 +29,11 @@ jobs:
           mirrors: '[{ "id": "MavenCentral", "mirrorOf": "central", "url": "https://repo.maven.apache.org/maven2" },{ "id": "Artifactory", "mirrorOf": "artifactory", "url": "http://52.172.8.144:8040/artifactory" }]'
           repositories: '[{ "id": "MavenCentral", "url": "https://repo.maven.apache.org/maven2", "releases": { "enabled": "true" } },{ "id": "Release", "name": "libs-release", "url": "http://52.172.8.144:8040/artifactory/libs-release", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } }, { "id": "Snapshots", "name": "libs-snapshot", "url": "http://52.172.8.144:8040/artifactory/libs-snapshot", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } }]'
 
+      - name: Setup branch name
+        run: |
+          echo "::set-env name=BRANCH_NAME::$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')"
+          echo ${{ env.BRANCH_NAME }}
+          
       - name: Setup settings.xml
         run: |
           mvn -v
@@ -51,7 +56,6 @@ jobs:
 
       - name: Push docker image
         run: |
-          echo "::set-env name=BRANCH_NAME::$(echo ${{ github.ref }} | sed -e 's,.*/\(.*\),\1,')"
           IMAGE_ID=$NAMESPACE/$IMAGE_NAME
           echo $IMAGE_ID
           echo $BRANCH_NAME
