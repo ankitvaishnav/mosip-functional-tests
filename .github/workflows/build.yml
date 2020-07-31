@@ -1,4 +1,4 @@
-name: Maven Package upon a push
+name: Functional tests build & dockerization
 
 on:
   push:
@@ -36,9 +36,24 @@ jobs:
           cat $GITHUB_WORKSPACE/settings.xml
 
       - name: Build authentication-partnerdemo-service
-        run: |
-          mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
+        run: mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f authentication-partnerdemo-service/pom.xml
 
       - name: Build automationtests
+        run: mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f automationtests/pom.xml
+
+      - name: Build docker image
+        run: docker build -t $IMAGE_NAME ./automationtests/
+        env:
+          IMAGE_NAME: ${{ secrets.image_name }}
+
+      - name: Log into docker registry
+        run: echo "${{ secrets.docker_password }}" | docker login -u ${{ secrets.docker_user }} --password-stdin
+
+      - name: Push docker image
         run: |
-          mvn clean install -Dmaven.test.skip=true -s $GITHUB_WORKSPACE/settings.xml -f automationtests/pom.xml
+          IMAGE_ID=$NAMESPACE/$IMAGE_NAME
+          docker tag $IMAGE_NAME $IMAGE_ID:$BRANCH_NAME
+          docker push $IMAGE_ID:$BRANCH_NAME
+        env:
+          NAMESPACE: ${{ secrets.docker_namespace }}
+          IMAGE_NAME: ${{ secrets.image_name }}
