@@ -3,7 +3,7 @@ name: Functional tests build & dockerization
 on:
   push:
     branches:
-      - 1.1.1
+      - 1.*
 
 jobs:
   build:
